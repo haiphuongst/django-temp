@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Categories</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item {% if not category %}active{% endif %}">
+                        <a href="{% url 'products:product_list' %}" class="{% if not category %}text-white{% endif %} text-decoration-none">All</a>
+                    </li>
+                    {% for c in categories %}
+                        <li class="list-group-item {% if category.slug == c.slug %}active{% endif %}">
+                            <a href="{{ c.get_absolute_url }}" class="{% if category.slug == c.slug %}text-white{% endif %} text-decoration-none">{{ c.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                    <div class="col">
+                        <div class="card h-100">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% else %}
+                                <div class="bg-light text-center p-5">No image</div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ product.get_absolute_url }}" class="text-decoration-none">{{ product.name }}</a>
+                                </h5>
+                                <p class="card-text text-truncate">{{ product.description }}</p>
+                                <p class="card-text fw-bold">${{ product.price }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

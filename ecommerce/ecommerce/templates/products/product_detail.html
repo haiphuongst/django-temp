@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+            {% else %}
+                <div class="bg-light text-center p-5 rounded">No image available</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <h4 class="text-muted">{{ product.category }}</h4>
+            <p class="fs-4 fw-bold text-primary">${{ product.price }}</p>
+            <p class="my-4">{{ product.description }}</p>
+            
+            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex align-items-center">
+                {{ cart_add_product_form.quantity.label_tag }}
+                <div class="mx-3">
+                    {{ cart_add_product_form.quantity }}
+                </div>
+                {% csrf_token %}
+                {{ cart_add_product_form.override }}
+                <button type="submit" class="btn btn-success">Add to cart</button>
+            </form>
+            
+            <div class="mt-4">
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary">
+                    &laquo; Back to products
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

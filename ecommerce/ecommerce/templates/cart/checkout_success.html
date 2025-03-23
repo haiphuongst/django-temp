@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Order Completed{% endblock %}
+
+{% block content %}
+    <div class="card text-center">
+        <div class="card-header bg-success text-white">
+            <h2>Order Completed</h2>
+        </div>
+        <div class="card-body py-5">
+            <h3 class="card-title">Thank you for your order!</h3>
+            <p class="card-text">Your order has been successfully placed. Your order number is <strong>{{ order.id }}</strong>.</p>
+            <p class="card-text">We've sent a confirmation email to <strong>{{ order.email }}</strong>.</p>
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+        </div>
+    </div>
+{% endblock %}
